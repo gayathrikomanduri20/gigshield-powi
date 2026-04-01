@@ -1,0 +1,5 @@
+{
+  "name": "GigShield",
+  "description": "Insurance platform for gig workers with dynamic premium calculation and zero-touch claims.",
+  "requestFramePermissions": ["geolocation"]
+}

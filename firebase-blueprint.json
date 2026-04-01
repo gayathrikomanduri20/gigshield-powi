@@ -1,0 +1,68 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "Gig worker profile information.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "displayName": { "type": "string" },
+        "workZone": { "type": "string", "description": "Primary working area/zone." },
+        "location": {
+          "type": "object",
+          "properties": {
+            "lat": { "type": "number" },
+            "lng": { "type": "number" }
+          }
+        },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email"]
+    },
+    "Policy": {
+      "title": "Insurance Policy",
+      "description": "Active insurance policies for gig workers.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "type": { "type": "string", "enum": ["Income Protection", "Accident Cover", "Health"] },
+        "premium": { "type": "number", "description": "Weekly premium in INR." },
+        "coverage": { "type": "number", "description": "Maximum coverage amount." },
+        "status": { "type": "string", "enum": ["active", "expired", "cancelled"] },
+        "startDate": { "type": "string", "format": "date-time" },
+        "endDate": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "type", "premium", "status"]
+    },
+    "Claim": {
+      "title": "Claim",
+      "description": "Insurance claims submitted by users or triggered automatically.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "policyId": { "type": "string" },
+        "reason": { "type": "string" },
+        "amount": { "type": "number" },
+        "status": { "type": "string", "enum": ["pending", "approved", "rejected"] },
+        "triggeredBy": { "type": "string", "enum": ["manual", "automated"] },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "policyId", "reason", "amount", "status"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profile data."
+    },
+    "/policies/{policyId}": {
+      "schema": "Policy",
+      "description": "Active insurance policies."
+    },
+    "/claims/{claimId}": {
+      "schema": "Claim",
+      "description": "Claims history."
+    }
+  }
+}
